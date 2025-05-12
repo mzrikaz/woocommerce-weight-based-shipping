@@ -2,17 +2,25 @@
 /*
  * Plugin Name: WooCommerce Weight Based Shipping
  * Description: A simple WooCommerce shipping method for weight-based shipping with configurable base price and additional price per kilogram.
- * Version: 1.0
+ * Version: 1.1
  * Author: Witsberry
  * Requires at least: 5.0
  * Tested up to: 6.4
  * WC requires at least: 7.0
  * WC tested up to: 8.5
+ * Requires PHP: 7.2
  */
 
 if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly
 }
+
+// Declare HPOS compatibility
+add_action('before_woocommerce_init', function () {
+    if (class_exists('\Automattic\WooCommerce\Utilities\FeaturesUtil')) {
+        \Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility('custom_order_tables', __FILE__, true);
+    }
+});
 
 // Check if WooCommerce is active
 if (in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_option('active_plugins')))) {
